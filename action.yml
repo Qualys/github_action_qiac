@@ -1,0 +1,14 @@
+name: 'Qualys IaC Security'
+author: 'Qualys'
+description: 'Detect cloud misconfigurations proactively before deployments. Scan Infrastructure as Code (IaC) using Qualys IaC Security.'
+inputs:
+  directory:
+    description: 'directory with infrastructure code to scan'
+    default: '.'
+    required: false
+
+runs:
+  using: 'docker'
+  image: 'dockerfile'
+  args:
+    - ${{ inputs.directory }}
