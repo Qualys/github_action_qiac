@@ -40,7 +40,7 @@ jobs:
                 fetch-depth: 0
     
           - name: Qualys IAC scan action step
-            uses: QIntegration/github_action_qiac@main
+            uses: Qualys/github_action_qiac@main
             id: qiac
             env:
                 URL: ${{ secrets.URL }}
@@ -67,7 +67,7 @@ jobs:
                 fetch-depth: 0
     
           - name: Qualys IAC scan action step
-            uses: QIntegration/github_action_qiac@main
+            uses: Qualys/github_action_qiac@main
             id: qiac
             env:
                 URL: ${{ secrets.URL }}
@@ -93,7 +93,7 @@ jobs:
                 fetch-depth: 0
     
           - name: Qualys IAC scan action step
-            uses: QIntegration/github_action_qiac@main
+            uses: Qualys/github_action_qiac@main
             id: qiac
             env:
                 URL: ${{ secrets.URL }}
@@ -119,7 +119,7 @@ jobs:
                 fetch-depth: 0
     
           - name: Qualys IAC scan action step
-            uses: QIntegration/github_action_qiac@main
+            uses: Qualys/github_action_qiac@main
             id: qiac
             env:
                 URL: ${{ secrets.URL }}
@@ -153,7 +153,7 @@ jobs:
                 fetch-depth: 0
     
           - name: Qualys IAC scan action step
-            uses: QIntegration/github_action_qiac@main
+            uses: Qualys/github_action_qiac@main
             id: qiac
             env:
                 URL: ${{ secrets.URL }}
