@@ -1,6 +1,6 @@
 name: 'Qualys CloudView IaC Security'
 author: 'Qualys'
-description: 'Detect cloud misconfigurations proactively before deployments. Scan Infrastructure as Code (IaC) using Qualys CloudView IaC Security.'
+description: 'Detect cloud misconfigurations proactively before deployments. Scan Infrastructure as Code (IaC) using Qualys IaC Security.'
 inputs:
   directory:
     description: 'directory with infrastructure code to scan'
