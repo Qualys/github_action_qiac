@@ -163,7 +163,7 @@ jobs:
               directory: 'path of directory to scan (optional)'
           
           - name: Upload SARIF file
-            uses: github/codeql-action/upload-sarif@v1
+            uses: github/codeql-action/upload-sarif@v3
             if: always() 
             with:
                  sarif_file: response.sarif
