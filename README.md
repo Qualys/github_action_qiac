@@ -176,6 +176,38 @@ jobs:
 3. `Qualys URL, Qualys Username , Qualys Password` to be added in `secrets` and provided as `environment variables` to the Qualys IaC GitHub action.
 4. Self-hosted runners must use a Linux operating system and have Docker installed to run this action.
 
+## Optional environment variable
+| Parameter  | Description | Required | Default Value | Parameter Type |
+| -----------| -------------------------------------------------------------------------------------------------------- | ------------- | ------------- | ------------- |
+| failBuild | This parameter enables marking the workflow as failed or successful based on user input.<br> <b>Parameter Behavior:</b><br><ol><li><b>true -</b><ul><li>If the control check fails → the workflow will be marked as Failed</li><li>If the control check passes → the workflow will be marked as Passed</li></ul></li><li><b>false -</b><ul><li>The workflow will always be marked as Passed, regardless of whether the control check passes or fails.</li></ul></li></ol>  | No | true | Variable |
+
+### Example - `failBuild` set to `false`
+```yaml
+name: Qualys IAC Scan 
+on:
+  push:
+    branches:
+      - main
+jobs:
+    Qualys_iac_scan:
+        runs-on: ubuntu-latest
+        name: Qualys IaC Scan
+        steps:
+          - name: Checkout
+            uses: actions/checkout@v2 
+            with:
+                fetch-depth: 0
+    
+          - name: Qualys IAC scan action step
+            uses: Qualys/github_action_qiac@main
+            id: qiac
+            env:
+                URL: ${{ secrets.URL }}
+                UNAME: ${{ secrets.USERNAME }}
+                PASS: ${{ secrets.PASSWORD }}
+                failBuild: false
+```
+
 ## GitHub action Parameters
 
 | Parameter  | Description | Required | Default | Type |

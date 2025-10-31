@@ -1,4 +1,4 @@
-import sys, json
+import sys, json, os 
 
 def print_error_message(result):
     error_message = ""
@@ -32,9 +32,13 @@ def print_failed_checks(output):
     failed_checks = False
     for result in output.get("result"):
         failed_checks = print_error_message(result)
+    failBuild = os.getenv("failBuild", "true").lower() == "true"
     if failed_checks:
-        exit(-1)
-
+        if failBuild :
+            print("Pipeline status will be - Failed")
+            exit(-1)
+        else:
+            print("Pipeline status will be - Successful")
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
