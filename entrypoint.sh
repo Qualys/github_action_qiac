@@ -32,7 +32,13 @@ else
 fi
  #Calling Iac CLI
  echo "Scanning Started at - $(date +"%Y-%m-%d %H:%M:%S")"
- qiac scan -a $URL -u $UNAME -p $PASS -d $SCANFOLDER -m json -n GitHubActionScan --branch $GITHUB_REF --gitrepo $GITHUB_REPOSITORY --source $SOURCE_UUID > /result.json
+ # Check if AUTHTYPE is set to OIDC (case-insensitive)
+ AUTHTYPE_UPPER=$(echo "$AUTHTYPE" | tr '[:lower:]' '[:upper:]')
+ if [ "$AUTHTYPE_UPPER" = "OIDC" ]; then
+    qiac scan -a $URL -u $UNAME -p $PASS -d $SCANFOLDER -m json -n GitHubActionScan --tag [{\"BRANCH_NAME\":\"$GITHUB_REF\"},{\"REPOSITORY_NAME\":\"$GITHUB_REPOSITORY\"}] -at OIDC > /result.json
+ else
+    qiac scan -a $URL -u $UNAME -p $PASS -d $SCANFOLDER -m json -n GitHubActionScan --tag [{\"BRANCH_NAME\":\"$GITHUB_REF\"},{\"REPOSITORY_NAME\":\"$GITHUB_REPOSITORY\"}] > /result.json
+ fi
  if [ $? -ne 0 ]; then
     exit 1
  fi
@@ -44,7 +50,11 @@ fi
  if [[ ! -z "$SCAN_ID" ]]
  then
     echo "Scan ID:" $SCAN_ID
-    qiac getresult -a $URL -u $UNAME -p $PASS -i $SCAN_ID -m SARIF -s > /raw_result.sarif
+    if [ "$AUTHTYPE_UPPER" = "OIDC" ]; then
+       qiac getresult -a $URL -u $UNAME -p $PASS -i $SCAN_ID -m SARIF -s -at OIDC > /raw_result.sarif
+    else
+       qiac getresult -a $URL -u $UNAME -p $PASS -i $SCAN_ID -m SARIF -s > /raw_result.sarif
+    fi
  fi
  
  if [ -f scan_response_*.sarif ]; then
