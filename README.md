@@ -38,7 +38,7 @@ jobs:
         name: Qualys IaC Scan
         steps:
           - name: Checkout
-            uses: actions/checkout@v2 
+            uses: actions/checkout@v5 
             with:
                 fetch-depth: 0
     
@@ -65,7 +65,7 @@ jobs:
         name: Qualys IaC Scan
         steps:
           - name: Checkout
-            uses: actions/checkout@v2 
+            uses: actions/checkout@v5 
             with:
                 fetch-depth: 0
     
@@ -91,7 +91,7 @@ jobs:
         name: Qualys IaC Scan
         steps:
           - name: Checkout
-            uses: actions/checkout@v2 
+            uses: actions/checkout@v5 
             with:
                 fetch-depth: 0
     
@@ -117,7 +117,7 @@ jobs:
         name: Qualys IaC Scan
         steps:
           - name: Checkout
-            uses: actions/checkout@v2 
+            uses: actions/checkout@v5 
             with:
                 fetch-depth: 0
     
@@ -151,7 +151,7 @@ jobs:
         name: Qualys IaC Scan
         steps:
           - name: Checkout
-            uses: actions/checkout@v2 
+            uses: actions/checkout@v5 
             with:
                 fetch-depth: 0
     
@@ -175,7 +175,7 @@ jobs:
 
 ## Prerequisites for Qualys IaC GithHub Action
 1. Valid Qualys Credentials and subscription of Qualys CloudView module.
-2. Use of `actions/checkout@v2` with ` fetch-depth: 0` before calling Qualys IaC GitHub action.
+2. Use of `actions/checkout@v5` with ` fetch-depth: 0` before calling Qualys IaC GitHub action.
 3. Authentication credentials to be added in `secrets` and provided as `environment variables` to the Qualys IaC GitHub action:
    - For **Basic Authentication**: `URL`, `UNAME`, `PASS`
    - For **OIDC Authentication**: `URL`, `CLIENTID`, `CLIENTSECRET`, and set `AUTHTYPE` to `OIDC`
@@ -202,7 +202,7 @@ jobs:
         name: Qualys IaC Scan
         steps:
           - name: Checkout
-            uses: actions/checkout@v2 
+            uses: actions/checkout@v5 
             with:
                 fetch-depth: 0
     
@@ -229,7 +229,7 @@ jobs:
         name: Qualys IaC Scan
         steps:
           - name: Checkout
-            uses: actions/checkout@v2 
+            uses: actions/checkout@v5 
             with:
                 fetch-depth: 0
     
