@@ -21,8 +21,6 @@ if [ "$AUTHTYPE_UPPER" = "OIDC" ]; then
   fi
   UNAME=$CLIENTID
   PASS=$CLIENTSECRET
-  echo "[INFO] URL: ${URL}"
-  echo "[INFO] CLIENTID: ${CLIENTID}"
 else
   if [ -z "${UNAME}" ]; then
     echo "[ERROR] Please set your Qualys Username in UNAME environment variable."
@@ -32,8 +30,6 @@ else
     echo "[ERROR] Please set your Qualys Password in PASS environment variable."
     exit 1
   fi
-  echo "[INFO] URL: ${URL}"
-  echo "[INFO] UNAME: ${UNAME}"
 fi
 echo "[INFO] GITHUB_REF: ${GITHUB_REF}"
 echo "[INFO] GITHUB_REPOSITORY: ${GITHUB_REPOSITORY}"
@@ -69,7 +65,6 @@ fi
  #Calling Iac CLI
  echo "[INFO] Scanning Started at - $(date +"%Y-%m-%d %H:%M:%S")"
  if [ "$AUTHTYPE_UPPER" = "OIDC" ]; then
-    echo "[INFO] AUTHTYPE: OIDC"
     qiac scan -a $URL -u $UNAME -p $PASS -d $SCANFOLDER -m json -n GitHubActionScan --tag [{\"BRANCH_NAME\":\"$GITHUB_REF\"},{\"REPOSITORY_NAME\":\"$GITHUB_REPOSITORY\"}] -at OIDC > /result.json
  else
     qiac scan -a $URL -u $UNAME -p $PASS -d $SCANFOLDER -m json -n GitHubActionScan --tag [{\"BRANCH_NAME\":\"$GITHUB_REF\"},{\"REPOSITORY_NAME\":\"$GITHUB_REPOSITORY\"}] > /result.json
