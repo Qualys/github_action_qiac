@@ -16,6 +16,7 @@ Note: Qualys IaC GitHub action supports below file formats for scanning.
 3. Create GitHub Secrets for Qualys URL and authentication credentials.
    - For **Basic Authentication**: Create secrets for `URL`, `UNAME`, and `PASS`.
    - For **OIDC Authentication**: Create secrets for `URL`, `CLIENTID`, and `CLIENTSECRET`.
+   - For **IDP Authentication**: Create secrets for `URL`, `CLIENTID`, `CLIENTSECRET`, and `TOKEN_URL`.
 
 Refer to [Encrypted secrets](https://docs.github.com/en/actions/reference/encrypted-secrets) for more details on how to setup secrets.
 4. Configure your workflow. In the actions section use `Qualys/github_action_qiac@main`
@@ -179,14 +180,18 @@ jobs:
 3. Authentication credentials to be added in `secrets` and provided as `environment variables` to the Qualys IaC GitHub action:
    - For **Basic Authentication**: `URL`, `UNAME`, `PASS`
    - For **OIDC Authentication**: `URL`, `CLIENTID`, `CLIENTSECRET`, and set `AUTHTYPE` to `OIDC`
+   - For **IDP Authentication**: `URL`, `CLIENTID`, `CLIENTSECRET`, `TOKEN_URL`, and set `AUTHTYPE` to `IDP`
 4. Self-hosted runners must use a Linux operating system and have Docker installed to run this action.
 
 ## Optional environment variable
 | Parameter  | Description | Required | Default Value | Parameter Type |
 | -----------| -------------------------------------------------------------------------------------------------------- | ------------- | ------------- | ------------- |
-| AUTHTYPE | Authentication type. Set to `OIDC` for OIDC authentication. If not set or any other value, basic authentication (username/password) is used. | No | (empty) | Variable |
-| CLIENTID | Qualys Client ID for OIDC authentication. Required when `AUTHTYPE` is set to `OIDC`. | Conditional | - | Variable |
-| CLIENTSECRET | Qualys Client Secret for OIDC authentication. Required when `AUTHTYPE` is set to `OIDC`. | Conditional | - | Variable |
+| AUTHTYPE | Authentication type. Set to `OIDC` for OIDC authentication or `IDP` for IDP authentication. If not set or any other value, basic authentication (username/password) is used. | No | (empty) | Variable |
+| CLIENTID | Qualys Client ID for OIDC/IDP authentication. Required when `AUTHTYPE` is set to `OIDC` or `IDP`. | Conditional | - | Variable |
+| CLIENTSECRET | Qualys Client Secret for OIDC/IDP authentication. Required when `AUTHTYPE` is set to `OIDC` or `IDP`. | Conditional | - | Variable |
+| TOKEN_URL | Token URL for IDP authentication. Required when `AUTHTYPE` is set to `IDP`. | Conditional | - | Variable |
+| SCOPE | Scope for IDP authentication. Optional, used when `AUTHTYPE` is set to `IDP`. | No | - | Variable |
+| AUDIENCE | Audience for IDP authentication. Optional, used when `AUTHTYPE` is set to `IDP`. | No | - | Variable |
 | failBuild | This parameter enables marking the workflow as failed or successful based on user input.<br> <b>Parameter Behavior:</b><br><ol><li><b>true -</b><ul><li>If the control check fails → the workflow will be marked as Failed</li><li>If the control check passes → the workflow will be marked as Passed</li></ul></li><li><b>false -</b><ul><li>The workflow will always be marked as Passed, regardless of whether the control check passes or fails.</li></ul></li></ol>  | No | true | Variable |
 
 ### Example - `failBuild` set to `false`
@@ -241,6 +246,36 @@ jobs:
                 AUTHTYPE: OIDC
                 CLIENTID: ${{ secrets.CLIENTID }}
                 CLIENTSECRET: ${{ secrets.CLIENTSECRET }}
+```
+
+### Example - IDP Authentication
+```yaml
+name: Qualys IAC Scan 
+on:
+  push:
+    branches:
+      - main
+jobs:
+    Qualys_iac_scan:
+        runs-on: ubuntu-latest
+        name: Qualys IaC Scan
+        steps:
+          - name: Checkout
+            uses: actions/checkout@v5 
+            with:
+                fetch-depth: 0
+    
+          - name: Qualys IAC scan action step
+            uses: Qualys/github_action_qiac@main
+            id: qiac
+            env:
+                URL: ${{ secrets.URL }}
+                AUTHTYPE: IDP
+                CLIENTID: ${{ secrets.CLIENTID }}
+                CLIENTSECRET: ${{ secrets.CLIENTSECRET }}
+                TOKEN_URL: ${{ secrets.TOKEN_URL }}
+                SCOPE: ${{ secrets.SCOPE }}
+                AUDIENCE: ${{ secrets.AUDIENCE }}
 ```
 
 ## GitHub action Parameters
